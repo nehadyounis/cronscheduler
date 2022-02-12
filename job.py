@@ -10,6 +10,7 @@ logging.basicConfig(filename="intervals.log",
 
 
 class Job:
+
     cronSyntax: str = None
     func = None
     identifier: str = None
@@ -58,17 +59,27 @@ class Job:
         start = time.time()
         self.__ret = self.func()
         end = time.time()
-        self.actualExecutionTime = end - start
-
-        logging.info(self.log_string())
+        self.actualExecutionTime = int(end - start)
+        # calculating execution time of each job by subtracting the time it started at from the time it ended at.
+        logging.info(self.log_string())  # push to log
 
     def log_string(self):
+        """
+        Returns a string to be inserted in the log each time the job is executed
+
+        :return: (str)
+        """
         log_string = f"id:{self.identifier}, expected time:{self.expectedExecutionTime}, actual time: {round(self.actualExecutionTime)}s"
         if self.__ret is not None:
             log_string += f", return: {self.__ret}"
         return log_string
 
-    def timeToRun(self):
+    def time_to_run(self) -> bool:
+        """
+        Tells if this job is to be executed now
+
+        :return: (bool)
+        """
         if self.frequency is not None:
             return self.nextRunTimeStamp == int(time.time()) and self.timesLeft != 0
         else:
