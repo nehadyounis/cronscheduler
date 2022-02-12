@@ -33,11 +33,11 @@ s.run()
 You can set jobs intervals using two methods, the first is determining a frequency for the job using `frequency` attribute
 
 ```python
-    s.add_job(print_hi, identifier="job_hi1", frequency='10s') #Executes every 10 seconds, infinite number of times
-    s.add_job(print_hi, identifier="job_hi2", frequency='10s', max_times=5) #Executes every 10 seconds for 5 times.
-    s.add_job(print_hi, identifier="job_hi3", frequency='1m', max_times=5) #Executes every 1 minute for 5 times.
-    s.add_job(print_hi, identifier="job_hi4", frequency='3h3m10s') #Executes every 3 hours 30 minute 10 seconds, infinite number of times
-    s.add_job(print_hi, identifier="job_hi5", frequency='1d', max_times=5) #Executes every day for 5 times.
+s.add_job(print_hi, identifier="job_hi1", frequency='10s') #Executes every 10 seconds, infinite number of times
+s.add_job(print_hi, identifier="job_hi2", frequency='10s', max_times=5) #Executes every 10 seconds for 5 times.
+s.add_job(print_hi, identifier="job_hi3", frequency='1m', max_times=5) #Executes every 1 minute for 5 times.
+s.add_job(print_hi, identifier="job_hi4", frequency='3h3m10s') #Executes every 3 hours 30 minute 10 seconds, infinite number of times
+s.add_job(print_hi, identifier="job_hi5", frequency='1d', max_times=5) #Executes every day for 5 times.
 ```
 
 Or you can use Cron Syntax to specifiy when the job shall be executed
@@ -51,7 +51,7 @@ s.add_job(print_hi, identifier="hi4", cron="0 15 10 ? * MON-FRI") #Fire at 10:15
 
 Expected execution time can be added as an optional argument
 ```python
-    s.add_job(print_hi, identifier="job_hi1", frequency='10s', expected_time='1s')
+s.add_job(print_hi, identifier="job_hi1", frequency='10s', expected_time='1s')
 ```
 Logging can be found in the file intervals.log, for exapmle, this code produces that following log
 
