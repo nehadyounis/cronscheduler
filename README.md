@@ -10,7 +10,7 @@ Clients should be able to specify:
 - A unique job identifier.
 
 ## Solution
-This is a python package that can schedule tasks and execute them in parallel on specefici times, as well as logging all the jobs that have been done.
+This is a python solution that can schedule tasks and execute them in parallel on specefici times, as well as logging all the jobs that have been done.
 
 ### Usage
 To use this package, import it to any project
