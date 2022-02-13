@@ -20,7 +20,7 @@ Clients should be able to specify:
 - A unique job identifier.
 
 ## Solution
-This is a python package that can schedule tasks and execute them in parallel on specefici times, as well as logging all
+This is a python package that can schedule tasks and execute them in parallel on specific times, as well as logging all
 the jobs that have been done.
 
 ### Usage
@@ -51,7 +51,7 @@ s.add_job(print_hi, identifier="job_hi4", frequency='3h3m10s') #Executes every 3
 s.add_job(print_hi, identifier="job_hi5", frequency='1d', max_times=5) #Executes every day for 5 times.
 ```
 
-Or you can use Cron Syntax to specifiy when the job shall be executed
+Or you can use Cron Syntax to specify when the job shall be executed
 
 ```python
 s.add_job(print_hi, identifier="hi1", cron="0 0 12 * * ?") #Fire at 12:00 PM (noon) every day
@@ -64,7 +64,7 @@ Expected execution time can be added as an optional argument
 ```python
 s.add_job(print_hi, identifier="job_hi1", frequency='10s', expected_time='1s')
 ```
-Logging can be found in the file intervals.log, for exapmle, this code produces that following log
+Logging can be found in the file intervals.log, for example, this code produces that following log
 
 ```python
 def print_hi():
