@@ -88,7 +88,7 @@ if __name__ == '__main__':
 
     """
 
-    running = False
+    isRunning = False
 
     def __init__(self) -> None:
         self.jobs: List[Job] = []
@@ -173,8 +173,8 @@ if __name__ == '__main__':
         return len(self.jobs)
 
     def __run_on_thread(self):
-        self.running = True
-        while self.running:
+        self.isRunning = True
+        while self.isRunning:
             for job in self.jobs:
                 if job.time_to_run():
                     thread = Thread(target=job.execute)
@@ -187,7 +187,7 @@ if __name__ == '__main__':
 
         :return: None
         """
-        if not self.running:
+        if not self.isRunning:
             main_thread = Thread(target=self.__run_on_thread)
             main_thread.start()
         else:
@@ -199,4 +199,4 @@ if __name__ == '__main__':
 
         :return: None
         """
-        self.running = False
+        self.isRunning = False
