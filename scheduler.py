@@ -1,5 +1,5 @@
 from job import Job
-from typing import List
+from typing import List, Callable
 from threading import Thread
 from parsers import IntervalParser
 import time
@@ -102,7 +102,7 @@ if __name__ == '__main__':
         """
         self.jobs.append(job)
 
-    def add_job(self, func, cron=None, identifier=None, frequency=None, expected_time="0s", max_times=None):
+    def add_job(self, func: Callable, cron=None, identifier=None, frequency=None, expected_time="0s", max_times=None):
         """
         Add a Job to the scheduler
 

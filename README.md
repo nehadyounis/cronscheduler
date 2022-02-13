@@ -100,3 +100,20 @@ Nothing noticable. Except for the fact that Python was used for the ease of debu
 - This code can run a job up to once a second, accuracy can be enhanced for up to one per millisecond, C++ will provide this solutoin even better.
 - For the jobs to keep running, The entire process must be running. This can be avoided by using Unix Crontabs.
 - Enhancing logging to provide futhrer information about each job.
+
+
+## Some Q&A
+
+### Why are there two different ways to initaite a job (frequency or cron syntax)?
+Frequnecy intervals are commonly used and easy to understand, yet it doesn't provide the full potentials that can be easilty provided by a cron syntax. Despite that fact, cron syntax are sometimes over complicated for certain tasks. Thus, each method has it's own use cases.
+
+### How was concurrency achieved?
+By threading, The sheduler checker (that determines which job to execute now), is running on its own thread. Furthermore, each job runs on it's own thread too.
+
+### Trade-offs?
+Nothing noticable. Except for the fact that Python was used for the ease of debugging, while a solution in C++ or Java would've been faster.
+
+### Future improvements?
+- This code can run a job up to once a second, accuracy can be enhanced for up to one per millisecond, C++ will provide this solutoin even better.
+- For the jobs to keep running, The entire process must be running. This can be avoided by using Unix Crontabs.
+- Enhancing logging to provide futhrer information about each job.

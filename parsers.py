@@ -1,7 +1,7 @@
 class IntervalParser:
 
     @staticmethod
-    def parse(interval):
+    def parse(interval: str):
         """
         This function receives a string of time interval and returns the corresponding values in seconds
 
@@ -19,10 +19,13 @@ class IntervalParser:
         m -> minutes
         h -> hours
         d -> days
+        any other letters and the numbers previous to them will be ignored.
         """
 
         if interval is None:
-            return None
+            return 0
+        if interval.find(" ") != -1:
+            raise ValueError("Interval cannot contain spaces")
         seconds = 0
         collector = "0"  # a string to collect each part of the interval.
         for letter in interval:
@@ -107,16 +110,15 @@ class CronSyntaxParser:
                 if elem.find("/") != -1:   # a multiplier, e.g. 0/20 -> 0, 20, 40
                     start = int(elem.split("/")[0])
                     interval = int(elem.split("/")[1])
-                    end = 59
+
                     if i == 2: end = 23
-                    if i == 3: end = 31
-                    if i == 4: end = 12
-                    if i == 5: end = 6
+                    elif i == 3: end = 31
+                    elif i == 4: end = 12
+                    elif i == 5: end = 6
+                    else: end = 59
+
                     while start < end:
                         cron_parts[i].append(start)
                         start += interval
-
-                    for j in range(start, end + 1):
-                        cron_parts[i].append(j)
 
         return cron_parts
