@@ -13,7 +13,7 @@ Clients should be able to specify:
 This is a python package that can schedule tasks and execute them in parallel on specefici times, as well as logging all the jobs that have been done.
 
 ### Useage
-To use this package, import it to any project
+To use this solution, import Scheduler to the project
 ```python
 from scheduler import Scheduler
 ```
