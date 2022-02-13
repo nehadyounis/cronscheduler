@@ -68,7 +68,7 @@ Logging can be found in the file intervals.log, for exapmle, this code produces 
 
 ```python
 def print_hi():
-    time.sleep(2) # hypothitical execution time
+    time.sleep(2) # hypothetical execution time
     print(f'Hi')
     return "I said hi"
 
