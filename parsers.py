@@ -1,7 +1,7 @@
 class IntervalParser:
 
     @staticmethod
-    def parse(interval: str):
+    def parse(interval: str = None):
         """
         This function receives a string of time interval and returns the corresponding values in seconds
 
@@ -22,27 +22,33 @@ class IntervalParser:
         any other letters and the numbers previous to them will be ignored.
         """
 
-        if interval is None:
+        if not interval:
             return 0
-        if interval.find(" ") != -1:
+        if " " in interval:
             raise ValueError("Interval cannot contain spaces")
+
         seconds = 0
-        collector = "0"  # a string to collect each part of the interval.
+        collector = ""  # a string to collect each part of the interval.
         for letter in interval:
             if letter.isdigit():
                 collector += letter
             else:
+                if collector == "":
+                    raise ValueError("Interval contains repeated letters")
                 num = int(collector)
-                collector = "0"
-
+                collector = ""
                 if letter == 's':  # seconds
                     seconds += num
-                if letter == 'm':  # minutes
+                elif letter == 'm':  # minutes
                     seconds += num * 60
-                if letter == 'h':  # hours
+                elif letter == 'h':  # hours
                     seconds += num * 3600
-                if letter == 'd':  # days
+                elif letter == 'd':  # days
                     seconds += num * 86400
+                else:
+                    raise ValueError("Interval contains unsupported letters")
+        if collector != "":
+            raise ValueError("A unit must be identified")
         return seconds
 
 
@@ -68,7 +74,7 @@ class CronSyntaxParser:
         return cron_str
 
     @staticmethod
-    def parse(cron_string) -> list:
+    def parse(cron_string:str) -> list:
         """
         This function receives a string of cron syntax and returns a list of lists, corresponding to all the
         days, months ... etc. at which the job shall be executed
@@ -80,11 +86,8 @@ class CronSyntaxParser:
         string = 0/15 * * ? feb 2,3 2020-2022
         returned list = [[0,15,30,45], [], [], [], [2], [2, 3], [2020, 2021, 2022]]
 
-        empty list means all values are allowedx
+        empty list means all values are allowed
         """
-
-        if type(cron_string) != str:
-            raise TypeError('Invalid cron string')
 
         cron_string = CronSyntaxParser.convert_cron_to_numeric(cron_string)
         parts = cron_string.strip().split()
@@ -98,16 +101,16 @@ class CronSyntaxParser:
                 continue
             elements = part.split(",")  # parsing multiple values, e.g. 23,24-26, 0/20 to list = [23, 24-26, 0/5]
             for elem in elements:
-                if elem.find("-") == -1 and elem.find("/") == -1:  # a single entity e.g 23
+                if "-" in elem and "/" in elem:  # a single entity e.g 23
                     cron_parts[i].append(int(elem))
 
-                if elem.find("-") != -1:    # a range, e.g. 24-26 -> 24, 25, 26
+                if "-" in elem:    # a range, e.g. 24-26 -> 24, 25, 26
                     start = int(elem.split("-")[0])
                     end = int(elem.split("-")[1])
                     for j in range(start, end + 1):
                         cron_parts[i].append(j)
 
-                if elem.find("/") != -1:   # a multiplier, e.g. 0/20 -> 0, 20, 40
+                if "/" in elem:   # a multiplier, e.g. 0/20 -> 0, 20, 40
                     start = int(elem.split("/")[0])
                     interval = int(elem.split("/")[1])
 

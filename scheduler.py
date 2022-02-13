@@ -114,25 +114,26 @@ if __name__ == '__main__':
         :param max_times:  (int) how many times do you want this job to be executed, leave blank if infinity
         :return: None
         """
-        if (cron is not None) and (frequency is not None):
+
+        if cron and frequency:
             raise ValueError("Cron syntax and frequency cannot be assigned together")
-        if (cron is None) and (frequency is None):
-            raise ValueError("either cron syntax or frequency must have a value")
-        if func is None:
+        if not cron and not frequency:
+            raise ValueError("Either cron syntax or frequency must have a value")
+        if not func:
             raise ValueError("Function to be executed cannot be None")
-        if identifier is None or identifier == "":
+        if not identifier or identifier == "":
             raise ValueError("Identifier cannot be None or blank")
         for job in self.jobs:
             if job.identifier == identifier:
                 raise ValueError("A job with this identifier already exists")
 
         frequencyInSeconds = None
-        if frequency is not None:
+        if frequency:
             frequencyInSeconds = IntervalParser.parse(frequency)
         expectedTimeInSeconds = IntervalParser.parse(expected_time)
 
-        j: Job = Job(func, cron, identifier, frequencyInSeconds, expectedTimeInSeconds, max_times)
-        self.jobs.append(j)
+        currentJob: Job = Job(func, cron, identifier, frequencyInSeconds, expectedTimeInSeconds, max_times)
+        self.jobs.append(currentJob)
 
     def kill_all(self):
         """

@@ -7,16 +7,27 @@ class TestParsers(unittest.TestCase):
 
     def test_interval_parsers(self):
         self.assertAlmostEqual(IntervalParser.parse("30s"), 30)
-        self.assertAlmostEqual(IntervalParser.parse("30ss"), 30)
-        self.assertAlmostEqual(IntervalParser.parse("30ssm"), 30)
         self.assertAlmostEqual(IntervalParser.parse("1h"), 3600)
         self.assertAlmostEqual(IntervalParser.parse("1h1s"), 3601)
         self.assertAlmostEqual(IntervalParser.parse("1h1m"), 3660)
         self.assertAlmostEqual(IntervalParser.parse("1d"), 86400)
         self.assertAlmostEqual(IntervalParser.parse("1s1h"), 3601)
-        self.assertAlmostEqual(IntervalParser.parse("1dddddd"), 86400)
-        self.assertAlmostEqual(IntervalParser.parse("1x"), 0)
         self.assertAlmostEqual(IntervalParser.parse(""), 0)
+
+        with self.assertRaises(ValueError):
+            IntervalParser.parse("1x")
+        with self.assertRaises(ValueError):
+            IntervalParser.parse("1 s")
+        with self.assertRaises(ValueError):
+            IntervalParser.parse("12m12c")
+        with self.assertRaises(ValueError):
+            IntervalParser.parse("1x")
+        with self.assertRaises(ValueError):
+            IntervalParser.parse("1ss")
+        with self.assertRaises(ValueError):
+            IntervalParser.parse("1ssm")
+        with self.assertRaises(ValueError):
+            IntervalParser.parse("1")
 
     def test_cron_parser(self):
         self.assertAlmostEqual(CronSyntaxParser.parse("* * * * * * *"), [[], [], [], [], [], [], []])

@@ -2,6 +2,7 @@ import datetime
 import time
 from parsers import IntervalParser, CronSyntaxParser
 import logging
+from typing import Callable
 
 logging.basicConfig(filename="intervals.log",
                     level=logging.INFO,
@@ -12,7 +13,7 @@ logging.basicConfig(filename="intervals.log",
 class Job:
 
     cronSyntax: str = None
-    func = None
+    func: Callable = None
     identifier: str = None
     expectedExecutionTime: int = None
     actualExecutionTime: int = None
@@ -21,8 +22,8 @@ class Job:
     timesLeft: int = None
     lastRunTimeStamp: int = None
     nextRunTimeStamp: int = None
-    delay: int = None
-    cronList = []
+    delay: int = 0
+    cronList: list = []
 
     __ret = None
 
@@ -34,10 +35,9 @@ class Job:
         self.delay = delay
         self.maxTimes = max_times
         self.cronSyntax = cron
-
         self.timesLeft = max_times
 
-        if self.frequency is not None:
+        if self.frequency:
             self.nextRunTimeStamp = int(time.time()) + frequency
         else:
             self.cronList = CronSyntaxParser.parse(cron)
@@ -51,10 +51,10 @@ class Job:
         print(f"cronSyntax: {self.cronSyntax}")
 
     def execute(self):
-        if self.timesLeft is not None:
+        if self.timesLeft:
             self.timesLeft -= 1
         self.lastRunTimeStamp = int(time.time())
-        if self.frequency is not None:
+        if self.frequency:
             self.nextRunTimeStamp = self.lastRunTimeStamp + self.frequency
         start = time.time()
         self.__ret = self.func()
@@ -80,7 +80,7 @@ class Job:
 
         :return: (bool)
         """
-        if self.frequency is not None:
+        if self.frequency:
             return self.nextRunTimeStamp == int(time.time()) and self.timesLeft != 0
         else:
             dt = datetime.datetime.now()
