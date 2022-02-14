@@ -102,7 +102,7 @@ if __name__ == '__main__':
         """
         self.jobs.append(job)
 
-    def add_job(self, func: Callable, cron=None, identifier=None, frequency=None, expected_time="0s", max_times=None):
+    def add_job(self, func: Callable, cron=None, identifier=None, frequency=None, expected_time="0ss", max_times=None):
         """
         Add a Job to the scheduler
 

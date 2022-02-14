@@ -21,7 +21,7 @@ class TestParsers(unittest.TestCase):
         with self.assertRaises(ValueError):
             IntervalParser.parse("12m12c")
         with self.assertRaises(ValueError):
-            IntervalParser.parse("1x")
+            IntervalParser.parse("1sx")
         with self.assertRaises(ValueError):
             IntervalParser.parse("1ss")
         with self.assertRaises(ValueError):
