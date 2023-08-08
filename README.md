@@ -1,5 +1,5 @@
-# Telda Coding Challenge: Cron scheduler
-This is my attempt to solve telda's coding challenge, which is to Implement an in-process cron scheduler that accepts a job and executes it periodically. 
+A Cron scheduler in Python
+This is my attempt to implement an in-process cron scheduler that accepts a job and executes it periodically. 
 
 ## Requirements
 Clients should be able to specify:
@@ -10,15 +10,15 @@ Clients should be able to specify:
 - A unique job identifier.
 
 ## Solution
-This is a python package that can schedule tasks and execute them in parallel on specefici times, as well as logging all the jobs that have been done.
+This is a Python package that can schedule tasks and execute them in parallel at specific times, as well as logging all the jobs that have been done.
 
-### Useage
+### Usage
 To use this solution, import Scheduler to the project
 ```python
 from scheduler import Scheduler
 ```
 
-Then initialize a scheduler, add jobs to it and put it to run, that's it.
+Then initialize a scheduler, add jobs to it, and put it to run, that's it.
 
 ```python
 def print_hi():
@@ -36,11 +36,11 @@ You can set jobs intervals using two methods, the first is determining a frequen
 s.add_job(print_hi, identifier="job_hi1", frequency='10s') #Executes every 10 seconds, infinite number of times
 s.add_job(print_hi, identifier="job_hi2", frequency='10s', max_times=5) #Executes every 10 seconds for 5 times.
 s.add_job(print_hi, identifier="job_hi3", frequency='1m', max_times=5) #Executes every 1 minute for 5 times.
-s.add_job(print_hi, identifier="job_hi4", frequency='3h3m10s') #Executes every 3 hours 30 minute 10 seconds, infinite number of times
+s.add_job(print_hi, identifier="job_hi4", frequency='3h3m10s') #Executes every 3 hours 30 minutes 10 seconds, infinite number of times
 s.add_job(print_hi, identifier="job_hi5", frequency='1d', max_times=5) #Executes every day for 5 times.
 ```
 
-Or you can use Cron Syntax to specifiy when the job shall be executed
+Or you can use Cron Syntax to specify when the job shall be executed
 
 ```python
 s.add_job(print_hi, identifier="hi1", cron="0 0 12 * * ?") #Fire at 12:00 PM (noon) every day
@@ -53,7 +53,7 @@ Expected execution time can be added as an optional argument
 ```python
 s.add_job(print_hi, identifier="job_hi1", frequency='10s', expected_time='1s')
 ```
-Logging can be found in the file intervals.log, for exapmle, this code produces that following log
+Logging can be found in the file intervals.log, for example, this code produces the following log
 
 ```python
 def print_hi():
@@ -88,17 +88,10 @@ s.stop() #stops the schedule from doing any further jobs.
 ## Some Q&A
 
 ### Why are there two different ways to initiate a job (frequency or cron syntax)?
-Frequency intervals are commonly used and easy to understand, yet it doesn't provide the full potentials that can be easily provided by a cron syntax. Despite that fact, cron syntax are sometimes over-complicated for certain tasks. Thus, each method has its own use cases.
+Frequency intervals are commonly used and easy to understand, yet it doesn't provide the full potential that can be easily provided by a cron syntax. Despite that fact, the cron syntax is sometimes over-complicated for certain tasks. Thus, each method has its own use cases.
 
 ### How was concurrency achieved?
 By threading, The scheduler checker (that determines which job to execute now), is running on its own thread. Furthermore, each job runs on its own thread too.
 
-### Trade-offs?
-Nothing noticeable. Except for the fact that Python was used for the ease of debugging, while a solution in C++ or Java would've been faster.
-
-### Future improvements?
-- This code can run a job up to once a second, accuracy can be enhanced for up to one per millisecond, C++ will provide this solution even better.
-- For the jobs to keep running, The entire process must be running. This can be avoided by using Unix Crontabs.
-- Enhancing logging to provide further information about each job.
 
 
